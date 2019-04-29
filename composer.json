@@ -1,0 +1,15 @@
+{
+    "name": "walle/difference-calculator",
+    "description": "Difference calculator",
+    "type": "project",
+    "require": {
+        "docopt/docopt": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Vasiliy Antufev",
+            "email": "vasiliyantufev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
