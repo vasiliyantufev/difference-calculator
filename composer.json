@@ -2,6 +2,9 @@
     "name": "walle/difference-calculator",
     "description": "Difference calculator",
     "type": "project",
+    "bin": [
+        "bin/gendiff"
+    ],
     "require": {
         "docopt/docopt": "^1.0"
     },
