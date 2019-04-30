@@ -8,26 +8,17 @@ function help()
 {
 
     $doc = <<<DOC
-Naval Fate.
-
+Generate diff.
 Usage:
-  naval_fate.php ship new <name>...
-  naval_fate.php ship <name> move <x> <y> [--speed=<kn>]
-  naval_fate.php ship shoot <x> <y>
-  naval_fate.php mine (set|remove) <x> <y> [--moored | --drifting]
-  naval_fate.php (-h | --help)
-  naval_fate.php --version
-
+  gendiff (-h|--help)
+  gendiff [--format <fmt>] <firstFile> <secondFile>
 Options:
-  -h --help     Show this screen.
-  --version     Show version.
-  --speed=<kn>  Speed in knots [default: 10].
-  --moored      Moored (anchored) mine.
-  --drifting    Drifting mine.
-
+  -h --help                     Show this screen
+  --format <fmt>                Report format [default: pretty]
 DOC;
-
-
-Docopt::handle($doc, array('version'=>'Naval Fate 2.0'));
+    $args = Docopt::handle($doc);
+    $diff = Differ\differ\genDiff($args['--format'], $args['<firstFile>'], $args['<secondFile>']);
+    print_r($diff);
+    echo PHP_EOL;
 
 }
