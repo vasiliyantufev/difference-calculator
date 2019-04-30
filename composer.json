@@ -2,7 +2,8 @@
     "name": "walle/difference-calculator",
     "type": "project",
     "bin": [
-        "bin/gendiff"
+        "bin/gendiff",
+        "bin/test"
     ],
     "description": "Difference calculator",
     "keywords": [
