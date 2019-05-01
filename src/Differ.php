@@ -12,8 +12,6 @@ function diff($pathToFile1, $pathToFile2)
     $handlerFile1 = fopen($pathToFile1, "rb");
     $handlerFile2 = fopen($pathToFile2, "rb");
 
-
-
     //найти различия
     //записать в строку и вернуть
 }
