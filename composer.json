@@ -10,7 +10,6 @@
     ],
     "autoload": {
         "files": [
-            "src/Help.php",
             "src/Differ.php"
         ]
     },
