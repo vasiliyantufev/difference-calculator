@@ -7,15 +7,45 @@ use Funct;
 function diff($fmt, $pathToFile1, $pathToFile2)
 {
 
-    var_dump($fmt);
-    var_dump($pathToFile1);
-    var_dump($pathToFile2);
-
-    //Funct\Strings\classify('hello world');
-
     //загрузить два файла в массивы
-//    $handlerFile1 = fopen($pathToFile1, "rb");
-//    $handlerFile2 = fopen($pathToFile2, "rb");
-    //найти различия
-    //записать в строку и вернуть
+    $file1 = (array)json_decode(file_get_contents($pathToFile1, "rb"));
+    $file2 = (array)json_decode(file_get_contents($pathToFile2, "rb"));
+
+//--------------------------------------------------------------------------------------------------------------------//
+//                                            найти различия
+//--------------------------------------------------------------------------------------------------------------------//
+//  формируем массив
+    $newFile = [];
+
+    //  пройтись по первому массиву
+    foreach ($file1 as $key => $value) {
+        //  если ключа не существует во втором массиве, то добавить из первого массива
+        if(!array_key_exists($key, $file2)) {
+            $newFile += ['-'.$key => $value];
+        }
+        //  если ключ существует
+        if (array_key_exists($key, $file2)) {
+            //  и в первом и во втором массиве и значения одинаковые, то добавить из первого массива
+            if ($value === $file2[$key]) {
+                $newFile += [$key => $value];
+            }
+            //  и в первом и во втором массиве и значения разные, то добавить из первого массива и из второго
+            elseif ($value !== $file2[$key]) {
+                $newFile += ['+'.$key => [$value]];
+                $newFile += ['-'.$key => [$file2[$key]]];
+            };
+        }
+    }
+
+    //  добавить недостающие элементы из второго
+    $newFile2 = array_diff_key($file2, $file1);
+
+    $myarray = array_map(function($key, $value) {
+        return "+{$key} => {$value}";
+        }, array_keys($newFile2), $newFile2);
+
+    $newFile += $myarray;
+
+    var_dump(json_encode($newFile));
+
 }
