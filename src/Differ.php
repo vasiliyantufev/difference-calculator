@@ -3,6 +3,7 @@
 namespace DifferenceCalculator;
 
 use Funct;
+use Symfony\Component\Yaml\Yaml;
 
 function diff($fmt, $pathToFile1, $pathToFile2)
 {
@@ -48,4 +49,9 @@ function diff($fmt, $pathToFile1, $pathToFile2)
 
     var_dump(json_encode($newFile));
 
+}
+
+function yamlParser(string $content)
+{
+    return Yaml::parse($content, true);
 }
