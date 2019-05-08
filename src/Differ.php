@@ -8,6 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 function diff($fmt, $pathToFile1, $pathToFile2)
 {
 
+    //bin/gendiff /home/walle/projects/hexlet/projects/difference-calculator/files/before.json /home/walle/projects/hexlet/projects/difference-calculator/files/after.json
     //загрузить два файла в массивы
     $file1 = (array)json_decode(file_get_contents($pathToFile1, "rb"));
     $file2 = (array)json_decode(file_get_contents($pathToFile2, "rb"));
