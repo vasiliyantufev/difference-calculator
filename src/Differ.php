@@ -59,11 +59,22 @@ function yamlParser($pathToFile)
     return $fileParser;
 }
 
-function findingDifferences($file1, $file2)
+
+function ASTBuilder(array $before, array $after)
 {
-    var_dump($file1);
-    var_dump($file2);
+
 }
+
+
+//function findingDifferences($file1, $file2)
+//{
+//    var_dump($file1);
+//    var_dump($file2);
+//
+//    array_reduce($file1, function ($acc, $file) {
+//        return $file['age'] > $acc['age'] ? $user : $acc;
+//    }, $file1[0]);
+//}
 
 //function findingDifferences($arrays)
 //{
