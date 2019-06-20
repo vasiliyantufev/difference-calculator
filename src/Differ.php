@@ -15,7 +15,11 @@ function diff($fmt, $pathToFile1, $pathToFile2)
     }
     $parseFile1 = parserFile($format, $pathToFile1);
     $parseFile2 = parserFile($format, $pathToFile2);
-    findingDifferences($parseFile1, $parseFile2);
+
+    //var_dump($parseFile1);
+    //var_dump($parseFile2);
+
+    ASTBuilder($parseFile1, $parseFile2);
 }
 
 function defineFormat($pathToFile1, $pathToFile2)
@@ -48,21 +52,54 @@ function parserFile($format, $pathToFile)
 function jsonParser($pathToFile)
 {
     //bin/gendiff /home/walle/projects/hexlet/projects/difference-calculator/files/before.json /home/walle/projects/hexlet/projects/difference-calculator/files/after.json
-    $fileParser = (array)json_decode(file_get_contents($pathToFile, "rb"));
+    $fileParser = json_decode(file_get_contents($pathToFile), true);
     return $fileParser;
 }
 
 function yamlParser($pathToFile)
 {
     //bin/gendiff /home/walle/projects/hexlet/projects/difference-calculator/files/before.yaml /home/walle/projects/hexlet/projects/difference-calculator/files/after.yaml
-    $fileParser = Yaml::parse(file_get_contents($pathToFile, "rb"), true);
+    $fileParser = Yaml::parse(file_get_contents($pathToFile));
     return $fileParser;
 }
 
 
 function ASTBuilder(array $before, array $after)
 {
+    $allPropertiesNames = array_unique(array_merge(array_keys($before), array_keys($after)));
 
+    $ASTtree = array_reduce($allPropertiesNames, function ($acc, $name) use ($before, $after) {
+
+        $beforeValue = $before[$name] ?? null;
+        $afterValue  = $after[$name] ?? null;
+
+        $added  = !array_key_exists($name, $before);
+        if($added) {
+            $acc[] = ['type' => 'added', 'name' => $name, 'added' => $afterValue];
+            return $acc;
+        }
+
+        $delete = !array_key_exists($name, $after);
+        if($delete) {
+            $acc[] = ['type' => 'delete', 'name' => $name, 'delete' => $beforeValue];
+            return $acc;
+        }
+
+        if(is_array($beforeValue) && is_array($afterValue)) {
+            //$acc[] = ['type' => 'nested', 'name' => $name];
+            ASTBuilder($beforeValue, $afterValue);
+        }
+
+        if($beforeValue !== $afterValue) {
+            $acc[] = ['type' => 'changed', 'name' => $name, 'after' => $afterValue, 'before' => $beforeValue];
+            return $acc;
+        }
+
+        $acc[] = ['type' => 'unchanged', 'name' => $name, 'after' => $afterValue, 'before' => $beforeValue];
+        return $acc;
+    }, []);
+
+    var_dump($ASTtree);
 }
 
 
