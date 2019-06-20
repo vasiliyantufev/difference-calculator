@@ -68,83 +68,37 @@ function ASTBuilder(array $before, array $after)
 {
     $allPropertiesNames = array_unique(array_merge(array_keys($before), array_keys($after)));
 
-    $ASTtree = array_reduce($allPropertiesNames, function ($acc, $name) use ($before, $after) {
+    $ASTtree = array_reduce($allPropertiesNames, function ($acc, $key) use ($before, $after) {
 
-        $beforeValue = $before[$name] ?? null;
-        $afterValue  = $after[$name] ?? null;
+        $beforeValue = $before[$key] ?? null;
+        $afterValue  = $after[$key] ?? null;
 
-        $added  = !array_key_exists($name, $before);
+        $added  = !array_key_exists($key, $before);
         if($added) {
-            $acc[] = ['type' => 'added', 'name' => $name, 'added' => $afterValue];
+            $acc[] = ['type' => 'added', 'node' => $key, 'before' => '', 'after' => $afterValue];
             return $acc;
         }
 
-        $delete = !array_key_exists($name, $after);
+        $delete = !array_key_exists($key, $after);
         if($delete) {
-            $acc[] = ['type' => 'delete', 'name' => $name, 'delete' => $beforeValue];
+            $acc[] = ['type' => 'removed', 'node' => $key, 'before' => $beforeValue, 'after' => ''];
             return $acc;
         }
 
         if(is_array($beforeValue) && is_array($afterValue)) {
-            //$acc[] = ['type' => 'nested', 'name' => $name];
-            ASTBuilder($beforeValue, $afterValue);
+            $children = ASTBuilder($beforeValue, $afterValue);
+            $acc[] = ['type' => 'nested', 'name' => $key, 'children' => $children];
         }
 
         if($beforeValue !== $afterValue) {
-            $acc[] = ['type' => 'changed', 'name' => $name, 'after' => $afterValue, 'before' => $beforeValue];
+            $acc[] = ['type' => 'changed', 'node' => $key, 'before' => $beforeValue, 'after' => $afterValue];
             return $acc;
         }
 
-        $acc[] = ['type' => 'unchanged', 'name' => $name, 'after' => $afterValue, 'before' => $beforeValue];
+        $acc[] = ['type' => 'unchanged', 'node' => $key, 'before' => $beforeValue, 'after' => $afterValue];
         return $acc;
     }, []);
 
-    var_dump($ASTtree);
+    //var_dump($ASTtree);
+    return $ASTtree;
 }
-
-
-//function findingDifferences($file1, $file2)
-//{
-//    var_dump($file1);
-//    var_dump($file2);
-//
-//    array_reduce($file1, function ($acc, $file) {
-//        return $file['age'] > $acc['age'] ? $user : $acc;
-//    }, $file1[0]);
-//}
-
-//function findingDifferences($arrays)
-//{
-//    //  формируем массив
-//    $newFile = [];
-//
-//    //  пройтись по первому массиву
-//    foreach ($arrays[0] as $key => $value) {
-//        //  если ключа не существует во втором массиве, то добавить из первого массива
-//        if(!array_key_exists($key, $arrays[1])) {
-//            $newFile += ['-'.$key => $value];
-//        }
-//        //  если ключ существует
-//        if (array_key_exists($key, $arrays[1])) {
-//            //  и в первом и во втором массиве и значения одинаковые, то добавить из первого массива
-//            if ($value === $arrays[1][$key]) {
-//                $newFile += [$key => $value];
-//            }
-//            //  и в первом и во втором массиве и значения разные, то добавить из первого массива и из второго
-//            elseif ($value !== $arrays[1][$key]) {
-//                $newFile += ['+'.$key => [$value]];
-//                $newFile += ['-'.$key => [$arrays[1][$key]]];
-//            };
-//        }
-//    }
-//
-//    //  добавить недостающие элементы из второго
-//    $newFile2 = array_diff_key($arrays[1], $arrays[0]);
-//
-//    $myarray = array_map(function($key, $value) {
-//        return "+{$key} => {$value}";
-//    }, array_keys($newFile2), $newFile2);
-//
-//    $newFile += $myarray;
-//    return json_encode($newFile);
-//}
