@@ -5,10 +5,15 @@ namespace DifferenceCalculator;
 use Funct;
 use Symfony\Component\Yaml\Yaml;
 
-const FORMATS = ['json', 'yaml'];
+const FILE_FORMAT    = ['json', 'yaml'];
+const DISPLAY_FORMAT = ['plain', 'pretty', 'json'];
 
 function diff($fmt, $pathToFile1, $pathToFile2)
 {
+
+    //var_dump($fmt);
+    //plain
+
     if(is_null($format = defineFormat($pathToFile1, $pathToFile2))) {
         echo 'invalid file format'.PHP_EOL;
         exit();
@@ -16,10 +21,62 @@ function diff($fmt, $pathToFile1, $pathToFile2)
     $parseFile1 = parserFile($format, $pathToFile1);
     $parseFile2 = parserFile($format, $pathToFile2);
 
-    //var_dump($parseFile1);
-    //var_dump($parseFile2);
+    showASTTree($fmt, ASTBuilder($parseFile1, $parseFile2));
+}
 
-    ASTBuilder($parseFile1, $parseFile2);
+function showASTTree($fmt, $tree)
+{
+    if(!in_array($fmt, DISPLAY_FORMAT)) {
+        return Null;
+    }
+    if($fmt == 'pretty'){
+        pretty($tree);
+    }
+    if($fmt == 'plain') {
+        plain($tree);
+    }
+
+}
+
+function pretty($tree)
+{
+    var_dump($tree);
+}
+
+function plain($tree)
+{
+    $plainDisplay = array_reduce($tree, function ($acc, $key) {
+
+
+        //if($key['type'] != 'nested'){
+
+            //var_dump($key);
+            $before = is_array($key['before']) ? 'complex value' : $key['before'];
+            $after  = is_array($key['after']) ? 'complex value' : $key['after'];
+
+            switch ($key['type']){
+                case 'added':
+                    $acc[] = "Property '{$key['node']}' was added with value '{$after}'";
+                    break;
+                case 'removed':
+                    $acc[] = "Property '{$key['node']}' was removed";
+                    break;
+                case 'changed':
+                    $acc[] = "Property '{$key['node']}' was changed. From '{$before}' to '{$after}'";
+                    break;
+                case 'nested':
+                    $acc[] = format($key['before'], "{$key['name']}.");
+                    break;
+            }
+
+            return $acc;
+        //}
+
+    });
+
+    var_dump($plainDisplay);
+
+    //return $plainDisplay;
 }
 
 function defineFormat($pathToFile1, $pathToFile2)
@@ -29,7 +86,7 @@ function defineFormat($pathToFile1, $pathToFile2)
     if(!isset($file1_info['extension']) || !isset($file2_info['extension'])) {
         return Null;
     }
-    if(!in_array($file1_info['extension'], FORMATS) && !in_array($file2_info['extension'], FORMATS)) {
+    if(!in_array($file1_info['extension'], FILE_FORMAT) && !in_array($file2_info['extension'], FILE_FORMAT)) {
         return Null;
     }
     if($file1_info['extension'] != $file2_info['extension']) {
