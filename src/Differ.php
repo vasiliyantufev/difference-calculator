@@ -6,13 +6,10 @@ use Funct;
 use Symfony\Component\Yaml\Yaml;
 
 const FILE_FORMAT    = ['json', 'yaml'];
-const DISPLAY_FORMAT = ['plain', 'pretty', 'json'];
+const DISPLAY_FORMAT = ['json', 'plain', 'pretty'];
 
 function diff($fmt, $pathToFile1, $pathToFile2)
 {
-
-    //var_dump($fmt);
-    //plain
 
     if(is_null($format = defineFormat($pathToFile1, $pathToFile2))) {
         echo 'invalid file format'.PHP_EOL;
@@ -40,43 +37,40 @@ function showASTTree($fmt, $tree)
 
 function pretty($tree)
 {
-    var_dump($tree);
+    $prettyDisplay = array_reduce($tree, function ($acc, $key) {
+
+    });
 }
 
 function plain($tree)
 {
     $plainDisplay = array_reduce($tree, function ($acc, $key) {
 
-
-        //if($key['type'] != 'nested'){
-
-            //var_dump($key);
-            $before = is_array($key['before']) ? 'complex value' : $key['before'];
-            $after  = is_array($key['after']) ? 'complex value' : $key['after'];
-
-            switch ($key['type']){
-                case 'added':
-                    $acc[] = "Property '{$key['node']}' was added with value '{$after}'";
-                    break;
-                case 'removed':
-                    $acc[] = "Property '{$key['node']}' was removed";
-                    break;
-                case 'changed':
-                    $acc[] = "Property '{$key['node']}' was changed. From '{$before}' to '{$after}'";
-                    break;
-                case 'nested':
-                    $acc[] = format($key['before'], "{$key['name']}.");
-                    break;
-            }
-
-            return $acc;
+        switch ($key['type']) {
+            case 'added':
+                $after = is_array($key['after']) ? 'complex value' : $key['after'];
+                $acc[] = "Property '{$key['node']}' was added with value '{$after}'";
+                break;
+            case 'removed':
+                $acc[] = "Property '{$key['node']}' was removed";
+                break;
+            case 'changed':
+                $before = is_array($key['before']) ? 'complex value' : $key['before'];
+                $after = is_array($key['after']) ? 'complex value' : $key['after'];
+                $acc[] = "Property '{$key['node']}' was changed. From '{$before}' to '{$after}'";
+                break;
+            case 'nested':
+                $acc[] = plain($key['children']);
+                break;
+        }
+        return $acc;
         //}
-
     });
+    //var_dump(implode(PHP_EOL, $plainDisplay));
+    //var_dump($plainDisplay);
+    //var_dump($tree);
 
-    var_dump($plainDisplay);
-
-    //return $plainDisplay;
+    return implode(PHP_EOL, $plainDisplay);
 }
 
 function defineFormat($pathToFile1, $pathToFile2)
