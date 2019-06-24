@@ -1,5 +1,9 @@
 {
   "host": "hexlet.io",
+  "hostTest": "hexletTest.io",
   "timeout": 50,
-  "proxy": "123.234.53.22"
+  "proxy": "123.234.53.22",
+  "group": {
+    "fee": "100500"
+  }
 }

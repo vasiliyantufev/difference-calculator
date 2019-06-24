@@ -1,5 +1,9 @@
 {
   "host": "hexlet.io",
+  "hexletTest": "hexletTestNew.io",
   "timeout": 20,
-  "verbose": true
+  "verbose": true,
+  "group": {
+    "fee": "500100"
+  }
 }

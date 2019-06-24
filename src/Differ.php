@@ -38,14 +38,35 @@ function showASTTree($fmt, $tree)
 function pretty($tree)
 {
     $prettyDisplay = array_reduce($tree, function ($acc, $key) {
+        switch ($key['type']) {
+            case 'unchanged':
+                $acc[] = "{$key['node']}: {$key['before']}";
+                break;
+            case 'changed':
+                $acc[] = "-{$key['node']}: {$key['before']}";
+                $acc[] = "+{$key['node']}: {$key['after']}";
+                break;
+            case 'added':
+                $acc[] = "+{$key['node']}: {$key['after']}";
+                break;
+            case 'removed':
+                $acc[] = "-{$key['node']}: {$key['before']}";
+                break;
+            case 'nested':
+                $acc[] = pretty($key['children']);
+                break;
+        }
+        return $acc;
+        //}
 
     });
+    //var_dump(implode(PHP_EOL, $prettyDisplay));
+    return implode(PHP_EOL, $prettyDisplay);
 }
 
 function plain($tree)
 {
     $plainDisplay = array_reduce($tree, function ($acc, $key) {
-
         switch ($key['type']) {
             case 'added':
                 $after = is_array($key['after']) ? 'complex value' : $key['after'];
@@ -53,6 +74,9 @@ function plain($tree)
                 break;
             case 'removed':
                 $acc[] = "Property '{$key['node']}' was removed";
+                break;
+            case 'unchanged':
+                $acc[] = "{$key['node']}: {$key['before']}";
                 break;
             case 'changed':
                 $before = is_array($key['before']) ? 'complex value' : $key['before'];
@@ -64,12 +88,7 @@ function plain($tree)
                 break;
         }
         return $acc;
-        //}
     });
-    //var_dump(implode(PHP_EOL, $plainDisplay));
-    //var_dump($plainDisplay);
-    //var_dump($tree);
-
     return implode(PHP_EOL, $plainDisplay);
 }
 
