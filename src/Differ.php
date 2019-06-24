@@ -32,10 +32,19 @@ function showASTTree($fmt, $tree)
     if($fmt == 'plain') {
         plain($tree);
     }
+    if($fmt == 'json') {
+        json($tree);
+    }
 
 }
 
-function pretty($tree)
+function json(array $tree)
+{
+    //var_dump(json_encode($tree, JSON_PRETTY_PRINT));
+    return json_encode($tree, JSON_PRETTY_PRINT);
+}
+
+function pretty(array $tree)
 {
     $prettyDisplay = array_reduce($tree, function ($acc, $key) {
         switch ($key['type']) {
@@ -57,14 +66,13 @@ function pretty($tree)
                 break;
         }
         return $acc;
-        //}
 
     });
     //var_dump(implode(PHP_EOL, $prettyDisplay));
     return implode(PHP_EOL, $prettyDisplay);
 }
 
-function plain($tree)
+function plain(array $tree)
 {
     $plainDisplay = array_reduce($tree, function ($acc, $key) {
         switch ($key['type']) {
