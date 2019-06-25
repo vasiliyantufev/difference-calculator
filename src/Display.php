@@ -30,8 +30,8 @@ function pretty(array $tree)
                 break;
         }
         return $acc;
-
     });
+
 //    var_dump(implode(PHP_EOL, $prettyDisplay));
     return implode(PHP_EOL, $prettyDisplay);
 }
@@ -61,6 +61,7 @@ function plain(array $tree)
         }
         return $acc;
     });
+
 //    var_dump(implode(PHP_EOL, $plainDisplay));
     return implode(PHP_EOL, $plainDisplay);
 }

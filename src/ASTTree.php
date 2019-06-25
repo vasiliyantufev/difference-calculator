@@ -5,21 +5,26 @@ namespace DifferenceCalculator\Tree;
 use function DifferenceCalculator\Display\json;
 use function DifferenceCalculator\Display\plain;
 use function DifferenceCalculator\Display\pretty;
-use const DifferenceCalculator\DISPLAY_FORMAT;
+
+const DISPLAY_FORMAT = ['json', 'plain', 'pretty'];
 
 function show($fmt, $tree)
 {
-    if(!in_array($fmt, DISPLAY_FORMAT)) {
-        return Null;
-    }
-    if($fmt == 'pretty'){
-        pretty($tree);
-    }
-    if($fmt == 'plain') {
-        plain($tree);
-    }
-    if($fmt == 'json') {
-        json($tree);
+    switch ($fmt) {
+        case 'pretty':
+            return function (array $tree) {
+                return pretty($tree);
+            };
+        case 'plain':
+            return function (array $tree) {
+                return plain($tree);
+            };
+        case 'json':
+            return function (array $tree) {
+                return json($tree);
+            };
+        default:
+            throw new \RuntimeException('Cannot find diff generator for specified format');
     }
 }
 
@@ -33,23 +38,23 @@ function builder(array $before, array $after)
         $afterValue  = $after[$key] ?? null;
 
         $added  = !array_key_exists($key, $before);
-        if($added) {
+        if ($added) {
             $acc[] = ['type' => 'added', 'node' => $key, 'before' => '', 'after' => $afterValue];
             return $acc;
         }
 
         $delete = !array_key_exists($key, $after);
-        if($delete) {
+        if ($delete) {
             $acc[] = ['type' => 'removed', 'node' => $key, 'before' => $beforeValue, 'after' => ''];
             return $acc;
         }
 
-        if(is_array($beforeValue) && is_array($afterValue)) {
+        if (is_array($beforeValue) && is_array($afterValue)) {
             $children = builder($beforeValue, $afterValue);
             $acc[] = ['type' => 'nested', 'name' => $key, 'children' => $children];
         }
 
-        if($beforeValue !== $afterValue) {
+        if ($beforeValue !== $afterValue) {
             $acc[] = ['type' => 'changed', 'node' => $key, 'before' => $beforeValue, 'after' => $afterValue];
             return $acc;
         }
