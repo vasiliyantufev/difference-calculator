@@ -4,35 +4,37 @@ namespace DifferenceCalculator\Display;
 
 function json(array $tree)
 {
-//    var_dump(json_encode($tree, JSON_PRETTY_PRINT));
+    //var_dump(json_encode($tree, JSON_PRETTY_PRINT));
     return json_encode($tree, JSON_PRETTY_PRINT);
 }
 
-function pretty(array $tree)
+function pretty(array $tree, int $level = 0)
 {
-    $prettyDisplay = array_reduce($tree, function ($acc, $key) {
+    $offset = str_pad('', $level * 4, " ");
+
+    $prettyDisplay = array_reduce($tree, function ($acc, $key) use ($offset, $level) {
         switch ($key['type']) {
             case 'unchanged':
-                $acc[] = "{$key['node']}: {$key['before']}";
+                $acc[] = "{$offset} {$key['node']}: {$key['before']}";
                 break;
             case 'changed':
-                $acc[] = "-{$key['node']}: {$key['before']}";
-                $acc[] = "+{$key['node']}: {$key['after']}";
+                $acc[] = "{$offset} -{$key['node']}: {$key['before']}";
+                $acc[] = "{$offset} +{$key['node']}: {$key['after']}";
                 break;
             case 'added':
-                $acc[] = "+{$key['node']}: {$key['after']}";
+                $acc[] = "{$offset} +{$key['node']}: {$key['after']}";
                 break;
             case 'removed':
-                $acc[] = "-{$key['node']}: {$key['before']}";
+                $acc[] = "{$offset} -{$key['node']}: {$key['before']}";
                 break;
             case 'nested':
-                $acc[] = pretty($key['children']);
+                $acc[] = pretty($key['children'], $level + 1);
                 break;
         }
         return $acc;
     });
 
-//    var_dump(implode(PHP_EOL, $prettyDisplay));
+    var_dump(implode(PHP_EOL, $prettyDisplay));
     return implode(PHP_EOL, $prettyDisplay);
 }
 
@@ -62,6 +64,6 @@ function plain(array $tree)
         return $acc;
     });
 
-//    var_dump(implode(PHP_EOL, $plainDisplay));
+    //var_dump(implode(PHP_EOL, $plainDisplay));
     return implode(PHP_EOL, $plainDisplay);
 }
