@@ -34,7 +34,7 @@ function pretty(array $tree, int $level = 0)
         return $acc;
     });
 
-    var_dump(implode(PHP_EOL, $prettyDisplay));
+//    var_dump(implode(PHP_EOL, $prettyDisplay));
     return implode(PHP_EOL, $prettyDisplay);
 }
 

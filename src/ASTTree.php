@@ -12,9 +12,12 @@ function show($fmt, $tree)
 {
     //echo $fmt;
     switch ($fmt) {
-        case 'pretty': pretty($tree); break;
-        case 'plain': plain($tree); break;
-        case 'json': json($tree); break;
+        case 'pretty':
+            return pretty($tree);
+        case 'plain':
+            return plain($tree);
+        case 'json':
+            return json($tree);
         default:
             throw new \RuntimeException('Cannot find diff generator for specified format');
     }
