@@ -1,26 +1,19 @@
 {
   "common": {
-    "setting1": "Value 2",
+    "setting1": "Value 1",
     "setting3": true,
     "setting4": "blah blah",
     "setting5": {
       "key5": "value5"
     }
   },
+
   "group1": {
     "foo": "bar",
-    "baz": "bars",
-    "group2": {
-      "bay": "bay",
-      "fooo": "barr2"
-    }
+    "baz": "bars"
   },
+
   "group3": {
     "fee": "100500"
-  },
-  "bat2new": "bat2",
-  "group6": {
-    "abccba": "54321"
-  },
-  "batoldd": "bat2"
+  }
 }

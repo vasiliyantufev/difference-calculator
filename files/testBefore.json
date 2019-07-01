@@ -9,18 +9,9 @@
   },
   "group1": {
     "baz": "bas",
-    "foo": "bar",
-    "group2": {
-      "bay": "bay",
-      "fooo": "barr"
-    }
+    "foo": "bar"
   },
-  "group3": {
+  "group2": {
     "abc": "12345"
-  },
-  "batold": "bat",
-  "group6": {
-    "abccba": "12345"
-  },
-  "batoldd": "bat1"
+  }
 }

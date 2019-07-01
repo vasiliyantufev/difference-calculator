@@ -2,9 +2,16 @@
 
 namespace Differ\tests;
 
+use function DifferenceCalculator\diff;
 use \PHPUnit\Framework\TestCase;
 
-$pretty = <<<DOC
+
+class DifferTest extends TestCase
+{
+
+const PATH_FILES = 'files' . DIRECTORY_SEPARATOR;
+
+const PRETTY = <<<DOC
 {
     common: {
         setting1: Value 1
@@ -32,7 +39,7 @@ $pretty = <<<DOC
 }
 DOC;
 
-$plain = <<<DOC
+const PLAIN = <<<DOC
 Property 'common.setting2' was removed
 Property 'common.setting6' was removed
 Property 'common.setting4' was added with value: 'blah blah'
@@ -42,15 +49,27 @@ Property 'group2' was removed
 Property 'group3' was added with value: 'complex value'
 DOC;
 
-class DifferTest extends TestCase
-{
+    private function  getPath(string $file)
+    {
+        return self::PATH_FILES.$file;
+    }
 
-    public function testNotLol()
+    public function testPretty()
     {
-        $this->assertNotEquals('lol','lol2');
+        $this->assertEquals(self::PRETTY, diff('pretty', $this->getPath('testBefore.json'),$this->getPath('testAfter.json')));
     }
-    public function testLol()
+
+    public function testPlain()
     {
-        $this->assertEquals('lol','lol');
+        $this->assertEquals(self::PLAIN, diff('plain', $this->getPath('testBefore.json'),$this->getPath('testAfter.json')));
     }
+
+//    public function testNotLol()
+//    {
+//        $this->assertNotEquals('lol','lol2');
+//    }
+//    public function testLol()
+//    {
+//        $this->assertEquals('lol','lol');
+//    }
 }
