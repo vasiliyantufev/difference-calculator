@@ -54,22 +54,22 @@ DOC;
         return self::PATH_FILES.$file;
     }
 
-    public function testPretty()
-    {
-        $this->assertEquals(self::PRETTY, diff('pretty', $this->getPath('testBefore.json'),$this->getPath('testAfter.json')));
-    }
-
-    public function testPlain()
-    {
-        $this->assertEquals(self::PLAIN, diff('plain', $this->getPath('testBefore.json'),$this->getPath('testAfter.json')));
-    }
-
-//    public function testNotLol()
+//    public function testPretty()
 //    {
-//        $this->assertNotEquals('lol','lol2');
+//        $this->assertEquals(self::PRETTY, diff('pretty', $this->getPath('testBefore.json'),$this->getPath('testAfter.json')));
 //    }
-//    public function testLol()
+
+//    public function testPlain()
 //    {
-//        $this->assertEquals('lol','lol');
+//        $this->assertEquals(self::PLAIN, diff('plain', $this->getPath('testBefore.json'),$this->getPath('testAfter.json')));
 //    }
+
+    public function testNotLol()
+    {
+        $this->assertNotEquals('lol','lol2');
+    }
+    public function testLol()
+    {
+        $this->assertEquals('lol','lol');
+    }
 }
