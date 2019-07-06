@@ -14,9 +14,6 @@ function pretty(array $tree, int $level = 0)
 
     $prettyDisplay = array_reduce($tree, function ($acc, $key) use ($offset, $level) {
         switch ($key['type']) {
-            case 'unchanged':
-                $acc[] = "{$offset} {$key['node']}: {$key['before']}";
-                break;
             case 'changed':
                 $acc[] = "{$offset} -{$key['node']}: {$key['before']}";
                 $acc[] = "{$offset} +{$key['node']}: {$key['after']}";
@@ -38,27 +35,27 @@ function pretty(array $tree, int $level = 0)
     return implode(PHP_EOL, $prettyDisplay);
 }
 
-function plain(array $tree)
+function plain(array $tree, $path = '')
 {
-    $plainDisplay = array_reduce($tree, function ($acc, $key) {
+    $plainDisplay = array_reduce($tree, function ($acc, $key) use ($path) {
+        if ($key['type'] != 'nested') {
+            $before = is_array($key['before']) ? 'complex value' : prepareValue($key['before']);
+            $after  = is_array($key['after'])  ? 'complex value' : prepareValue($key['after']);
+        }
         switch ($key['type']) {
+            case 'nested':
+                $acc[] = plain($key['children'], "{$path}{$key['name']}.");
+                break;
             case 'added':
-                $after = is_array($key['after']) ? 'complex value' : $key['after'];
-                $acc[] = "Property '{$key['node']}' was added with value '{$after}'";
+                $acc[] = "Property '{$path}{$key['node']}' was added with value: '{$after}'";
                 break;
             case 'removed':
-                $acc[] = "Property '{$key['node']}' was removed";
-                break;
-            case 'unchanged':
-                $acc[] = "{$key['node']}: {$key['before']}";
+                $acc[] = "Property '{$path}{$key['node']}' was removed";
                 break;
             case 'changed':
-                $before = is_array($key['before']) ? 'complex value' : $key['before'];
-                $after = is_array($key['after']) ? 'complex value' : $key['after'];
-                $acc[] = "Property '{$key['node']}' was changed. From '{$before}' to '{$after}'";
-                break;
-            case 'nested':
-                $acc[] = plain($key['children']);
+                if ($before != 'complex value' || $after != 'complex value') {
+                    $acc[] = "Property '{$path}{$key['node']}' was changed. From '{$before}' to '{$after}'";
+                }
                 break;
         }
         return $acc;
@@ -66,4 +63,15 @@ function plain(array $tree)
 
     //var_dump(implode(PHP_EOL, $plainDisplay));
     return implode(PHP_EOL, $plainDisplay);
+}
+
+function prepareValue($value)
+{
+    $stringValue = $value;
+    if (is_bool($value)) {
+        $stringValue = $value ? 'true' : 'false';
+    } elseif (is_null($value)) {
+        $stringValue = 'null';
+    }
+    return $stringValue;
 }
