@@ -13,7 +13,8 @@
             "src/Differ.php",
             "src/Display.php",
             "src/ASTTree.php",
-            "src/Parser.php"
+            "src/Parser.php",
+            "tests/fixtures/structure.php"
         ]
     },
     "require": {

@@ -2,8 +2,6 @@
 
 namespace Differ\tests;
 
-require_once('fixtures/structure.php');
-
 use function DifferenceCalculator\diff;
 use \PHPUnit\Framework\TestCase;
 
