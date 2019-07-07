@@ -15,11 +15,17 @@ class DifferTest extends TestCase
 
     public function testPlain()
     {
-        $this->assertEquals(PLAIN, diff('plain', $this->getPath('testBefore.json'), $this->getPath('testAfter.json')));
+        $this->assertEquals(
+            PLAIN,
+            diff('plain', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
+        );
     }
 
     public function testPretty()
     {
-        $this->assertEquals(PRETTY, diff('pretty', $this->getPath('testBefore.json'), $this->getPath('testAfter.json')));
+        $this->assertEquals(
+            PRETTY,
+            diff('pretty', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
+        );
     }
 }
