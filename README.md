@@ -13,5 +13,8 @@
 
 `composer global require walle/difference-calculator`
 
-## ASCIINEMA
+### Installation
 [![asciicast](https://asciinema.org/a/IEPRXEhT6IoUtYmoKPWOqtRTh.svg)](https://asciinema.org/a/IEPRXEhT6IoUtYmoKPWOqtRTh)
+
+###  JSON pretty plain diff example
+[![asciicast](https://asciinema.org/a/c0qxwZd4NBEr0w07KKA8f6kYT.svg)](https://asciinema.org/a/c0qxwZd4NBEr0w07KKA8f6kYT)
