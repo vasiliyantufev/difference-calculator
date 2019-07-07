@@ -7,7 +7,7 @@ const PRETTY = <<<DOC
     common: {
         setting1: Value 1
       - setting2: 200
-        setting3: true
+        setting3: false
       - setting6: {
             key: value
         }
@@ -16,9 +16,33 @@ const PRETTY = <<<DOC
             key5: value5
         }
     }
+  + common: {
+        setting1: Value 1
+        setting3: false
+        setting4: blah blah
+        setting5: {
+            key5: value5
+        }
+    }
+  - common: {
+        setting1: Value 1
+        setting2: 200
+        setting3: false
+        setting6: {
+            key: value
+        }
+    }
     group1: {
       + baz: bars
       - baz: bas
+        foo: bar
+    }
+  + group1: {
+        foo: bar
+        baz: bars
+    }
+  - group1: {
+        baz: bas
         foo: bar
     }
   - group2: {

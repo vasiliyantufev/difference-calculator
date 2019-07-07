@@ -17,9 +17,12 @@ function diff($fmt, $pathToFile1, $pathToFile2)
     $parseFile1 = parserFile($format, $pathToFile1);
     $parseFile2 = parserFile($format, $pathToFile2);
 
-    var_dump(show($fmt, builder($parseFile1, $parseFile2)));
+    //show($fmt, builder($parseFile1, $parseFile2));
 
-    //return show($fmt, builder($parseFile1, $parseFile2));
+//    var_dump(show($fmt, builder($parseFile1, $parseFile2)));
+    print_r(show($fmt, builder($parseFile1, $parseFile2)));
+
+    return show($fmt, builder($parseFile1, $parseFile2));
 }
 
 function defineFormat($pathToFile1, $pathToFile2)

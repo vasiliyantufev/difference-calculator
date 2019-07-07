@@ -19,15 +19,15 @@ function pretty(array $tree, int $level = 0)
         switch ($key['type']) {
             case 'added':
                 $after = prepareForDiff($key['after'], $level + 1);
-                $acc[] = "{$offset}  + {$key['name']}: {$after}";
+                $acc[] = "{$offset}  + {$key['node']}: {$after}";
                 break;
             case 'removed':
                 $before = prepareForDiff($key['before'], $level + 1);
-                $acc[] = "{$offset}  - {$key['name']}: {$before}";
+                $acc[] = "{$offset}  - {$key['node']}: {$before}";
                 break;
             case 'unchanged':
                 $before = prepareForDiff($key['before'], $level + 1);
-                $acc[] = "{$offset}    {$key['name']}: {$before}";
+                $acc[] = "{$offset}    {$key['node']}: {$before}";
                 break;
             case 'nested':
                 $children = pretty($key['children'], $level + 1);
@@ -35,9 +35,9 @@ function pretty(array $tree, int $level = 0)
                 break;
             case 'changed':
                 $after = prepareForDiff($key['after'], $level + 1);
-                $acc[] = "{$offset}  + {$key['name']}: {$after}";
+                $acc[] = "{$offset}  + {$key['node']}: {$after}";
                 $before = prepareForDiff($key['before'], $level + 1);
-                $acc[] = "{$offset}  - {$key['name']}: {$before}";
+                $acc[] = "{$offset}  - {$key['node']}: {$before}";
                 break;
         }
         return $acc;
