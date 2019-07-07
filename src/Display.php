@@ -2,6 +2,9 @@
 
 namespace DifferenceCalculator\Display;
 
+use function DifferenceCalculator\Prepare\prepareForDiff;
+use function DifferenceCalculator\Prepare\prepareValue;
+
 function json(array $tree)
 {
     //var_dump(json_encode($tree, JSON_PRETTY_PRINT));
@@ -10,26 +13,36 @@ function json(array $tree)
 
 function pretty(array $tree, int $level = 0)
 {
-    $offset = str_pad('', $level * 4, " ");
+    $offset = str_pad('', $level * 4, ' ');
 
     $prettyDisplay = array_reduce($tree, function ($acc, $key) use ($offset, $level) {
         switch ($key['type']) {
-            case 'changed':
-                $acc[] = "{$offset} -{$key['node']}: {$key['before']}";
-                $acc[] = "{$offset} +{$key['node']}: {$key['after']}";
-                break;
             case 'added':
-                $acc[] = "{$offset} +{$key['node']}: {$key['after']}";
+                $after = prepareForDiff($key['after'], $level + 1);
+                $acc[] = "{$offset}  + {$key['name']}: {$after}";
                 break;
             case 'removed':
-                $acc[] = "{$offset} -{$key['node']}: {$key['before']}";
+                $before = prepareForDiff($key['before'], $level + 1);
+                $acc[] = "{$offset}  - {$key['name']}: {$before}";
+                break;
+            case 'unchanged':
+                $before = prepareForDiff($key['before'], $level + 1);
+                $acc[] = "{$offset}    {$key['name']}: {$before}";
                 break;
             case 'nested':
-                $acc[] = pretty($key['children'], $level + 1);
+                $children = pretty($key['children'], $level + 1);
+                $acc[] = "{$offset}    {$key['name']}: {$children}";
+                break;
+            case 'changed':
+                $after = prepareForDiff($key['after'], $level + 1);
+                $acc[] = "{$offset}  + {$key['name']}: {$after}";
+                $before = prepareForDiff($key['before'], $level + 1);
+                $acc[] = "{$offset}  - {$key['name']}: {$before}";
                 break;
         }
         return $acc;
-    });
+    }, ['{']);
+    $prettyDisplay[] = "{$offset}}";
 
 //    var_dump(implode(PHP_EOL, $prettyDisplay));
     return implode(PHP_EOL, $prettyDisplay);
@@ -63,15 +76,4 @@ function plain(array $tree, $path = '')
 
     //var_dump(implode(PHP_EOL, $plainDisplay));
     return implode(PHP_EOL, $plainDisplay);
-}
-
-function prepareValue($value)
-{
-    $stringValue = $value;
-    if (is_bool($value)) {
-        $stringValue = $value ? 'true' : 'false';
-    } elseif (is_null($value)) {
-        $stringValue = 'null';
-    }
-    return $stringValue;
 }
