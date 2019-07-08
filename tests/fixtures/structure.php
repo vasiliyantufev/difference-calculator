@@ -181,7 +181,6 @@ const JSON = <<<DOC
 ]
 DOC;
 
-
 const YAML_JSON = <<<DOC
 [
     {

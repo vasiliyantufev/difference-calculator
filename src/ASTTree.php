@@ -10,7 +10,6 @@ const DISPLAY_FORMAT = ['json', 'plain', 'pretty'];
 
 function show($fmt, $tree)
 {
-    //echo $fmt;
     switch ($fmt) {
         case 'pretty':
             return pretty($tree);
@@ -18,8 +17,6 @@ function show($fmt, $tree)
             return plain($tree);
         case 'json':
             return json($tree);
-//        default:
-//            throw new \RuntimeException('Cannot find diff generator for specified format');
     }
 }
 

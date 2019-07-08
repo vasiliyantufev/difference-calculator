@@ -7,7 +7,6 @@ use function DifferenceCalculator\Prepare\prepareValue;
 
 function json(array $tree)
 {
-    //var_dump(json_encode($tree, JSON_PRETTY_PRINT));
     return json_encode($tree, JSON_PRETTY_PRINT);
 }
 
@@ -44,7 +43,6 @@ function pretty(array $tree, int $level = 0)
     }, ['{']);
     $prettyDisplay[] = "{$offset}}";
 
-//    var_dump(implode(PHP_EOL, $prettyDisplay));
     return implode(PHP_EOL, $prettyDisplay);
 }
 
@@ -74,6 +72,5 @@ function plain(array $tree, $path = '')
         return $acc;
     });
 
-    //var_dump(implode(PHP_EOL, $plainDisplay));
     return implode(PHP_EOL, $plainDisplay);
 }

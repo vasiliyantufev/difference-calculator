@@ -4,7 +4,6 @@ namespace Differ\tests;
 
 use function DifferenceCalculator\diff;
 use \PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 class DifferTest extends TestCase
 {

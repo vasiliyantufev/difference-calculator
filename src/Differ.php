@@ -12,7 +12,6 @@ function diff($fmt, $pathToFile1, $pathToFile2)
 {
     if (is_null($format = defineFormat($pathToFile1, $pathToFile2))) {
         throw new \RuntimeException('Cannot find diff generator for specified format');
-        exit();
     }
 
     $parseFile1 = parserFile($format, $pathToFile1);
