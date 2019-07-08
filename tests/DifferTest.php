@@ -28,4 +28,12 @@ class DifferTest extends TestCase
             diff('pretty', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
         );
     }
+
+    public function testJson()
+    {
+        $this->assertEquals(
+            JSON,
+            diff('json', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
+        );
+    }
 }
