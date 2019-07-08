@@ -18,8 +18,8 @@ function show($fmt, $tree)
             return plain($tree);
         case 'json':
             return json($tree);
-        default:
-            throw new \RuntimeException('Cannot find diff generator for specified format');
+//        default:
+//            throw new \RuntimeException('Cannot find diff generator for specified format');
     }
 }
 

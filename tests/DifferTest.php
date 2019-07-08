@@ -4,6 +4,7 @@ namespace Differ\tests;
 
 use function DifferenceCalculator\diff;
 use \PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class DifferTest extends TestCase
 {
@@ -35,5 +36,22 @@ class DifferTest extends TestCase
             JSON,
             diff('json', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
         );
+    }
+
+    public function testYaml()
+    {
+        $this->assertEquals(
+            YAML_JSON,
+            diff('json', $this->getPath('before.yaml'), $this->getPath('after.yaml'))
+        );
+    }
+
+    public function testFormatException()
+    {
+        try {
+            diff('json', $this->getPath('before.lol'), $this->getPath('after.lol'));
+        } catch (\Exception $e) {
+            $this->assertEquals('Cannot find diff generator for specified format', $e->getMessage());
+        }
     }
 }

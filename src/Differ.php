@@ -11,9 +11,10 @@ const FILE_FORMAT    = ['json', 'yaml'];
 function diff($fmt, $pathToFile1, $pathToFile2)
 {
     if (is_null($format = defineFormat($pathToFile1, $pathToFile2))) {
-        echo 'invalid file format' . PHP_EOL;
+        throw new \RuntimeException('Cannot find diff generator for specified format');
         exit();
     }
+
     $parseFile1 = parserFile($format, $pathToFile1);
     $parseFile2 = parserFile($format, $pathToFile2);
 

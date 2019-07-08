@@ -180,3 +180,33 @@ const JSON = <<<DOC
     }
 ]
 DOC;
+
+
+const YAML_JSON = <<<DOC
+[
+    {
+        "type": "unchanged",
+        "node": "integer",
+        "before": 25,
+        "after": 25
+    },
+    {
+        "type": "changed",
+        "node": "string",
+        "before": "30",
+        "after": "25"
+    },
+    {
+        "type": "changed",
+        "node": "float",
+        "before": 30,
+        "after": 25
+    },
+    {
+        "type": "changed",
+        "node": "boolean",
+        "before": "no",
+        "after": "Yes"
+    }
+]
+DOC;
