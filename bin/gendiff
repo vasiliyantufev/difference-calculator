@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-//bin/gendiff tests/fixtures/testBefore.json tests/fixtures/testAfter.json
-//bin/gendiff --format pretty tests/fixtures/testBefore.json tests/fixtures/testAfter.json
-//bin/gendiff --format plain tests/fixtures/testBefore.json tests/fixtures/testAfter.json
-//bin/gendiff --format json tests/fixtures/testBefore.json tests/fixtures/testAfter.json
+/*
+ * bin/gendiff tests/fixtures/testBefore.json tests/fixtures/testAfter.json
+ * bin/gendiff tests/fixtures/testBefore.json tests/fixtures/testAfter.json --format pretty
+ * bin/gendiff tests/fixtures/testBefore.json tests/fixtures/testAfter.json --format plain
+ * bin/gendiff tests/fixtures/testBefore.json tests/fixtures/testAfter.json --format json
+*/
 
 use function DifferenceCalculator\genDiff;
 
