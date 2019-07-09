@@ -2,53 +2,58 @@
 
 namespace Differ\tests;
 
-use function DifferenceCalculator\diff;
+use function DifferenceCalculator\genDiff;
+use DifferenceCalculator\Structure;
 use \PHPUnit\Framework\TestCase;
 
 class DifferTest extends TestCase
 {
-
-    private function getPath(string $file)
+    private function pathFile(string $file = '')
     {
-        return PATH_FILES . $file;
+        return Structure\PATH_FILES . $file;
     }
 
     public function testPlain()
     {
         $this->assertEquals(
-            PLAIN,
-            diff('plain', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
+            Structure\PLAIN,
+            genDiff($this->pathFile('testBefore.json'), $this->pathFile('testAfter.json'), 'plain')
         );
     }
 
     public function testPretty()
     {
         $this->assertEquals(
-            PRETTY,
-            diff('pretty', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
+            Structure\PRETTY,
+            genDiff($this->pathFile('testBefore.json'), $this->pathFile('testAfter.json'), 'pretty')
         );
     }
 
     public function testJson()
     {
         $this->assertEquals(
-            JSON,
-            diff('json', $this->getPath('testBefore.json'), $this->getPath('testAfter.json'))
+            Structure\JSON,
+            genDiff($this->pathFile('testBefore.json'), $this->pathFile('testAfter.json'), 'json')
         );
     }
 
     public function testYaml()
     {
         $this->assertEquals(
-            YAML_JSON,
-            diff('json', $this->getPath('before.yaml'), $this->getPath('after.yaml'))
+            Structure\YAML_JSON,
+            genDiff($this->pathFile('before.yaml'), $this->pathFile('after.yaml'), 'json')
         );
+    }
+
+    public function testFormat()
+    {
+        $this->assertNotEmpty(genDiff($this->pathFile('before.json'), $this->pathFile('after.json'), 'json'));
     }
 
     public function testFormatException()
     {
         try {
-            diff('json', $this->getPath('before.lol'), $this->getPath('after.lol'));
+            $this->assertNotEmpty(genDiff($this->pathFile('before.lol'), $this->pathFile('after.lol'), 'json'));
         } catch (\Exception $e) {
             $this->assertEquals('Cannot find diff generator for specified format', $e->getMessage());
         }

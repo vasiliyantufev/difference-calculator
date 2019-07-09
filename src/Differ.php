@@ -8,7 +8,7 @@ use function DifferenceCalculator\Tree\show;
 
 const FILE_FORMAT    = ['json', 'yaml'];
 
-function diff($fmt, $pathToFile1, $pathToFile2)
+function genDiff($pathToFile1, $pathToFile2, $fmt = 'pretty')
 {
     if (is_null($format = defineFormat($pathToFile1, $pathToFile2))) {
         throw new \RuntimeException('Cannot find diff generator for specified format');

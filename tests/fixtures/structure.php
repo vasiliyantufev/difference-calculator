@@ -1,5 +1,7 @@
 <?php
 
+namespace DifferenceCalculator\Structure;
+
 const PATH_FILES = 'tests' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
 
 const PRETTY = <<<DOC
