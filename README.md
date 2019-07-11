@@ -17,4 +17,4 @@
 [![asciicast](https://asciinema.org/a/IEPRXEhT6IoUtYmoKPWOqtRTh.svg)](https://asciinema.org/a/IEPRXEhT6IoUtYmoKPWOqtRTh)
 
 ###  JSON pretty plain diff example
-[![asciicast](https://asciinema.org/a/c0qxwZd4NBEr0w07KKA8f6kYT.svg)](https://asciinema.org/a/c0qxwZd4NBEr0w07KKA8f6kYT)
+[![asciicast](https://asciinema.org/a/cG0KsJU8OuzDkaRM5w7fVgN2b.svg)](https://asciinema.org/a/cG0KsJU8OuzDkaRM5w7fVgN2b)
