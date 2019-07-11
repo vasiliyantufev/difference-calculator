@@ -14,8 +14,7 @@
             "src/Display.php",
             "src/ASTTree.php",
             "src/Parser.php",
-            "src/Prepare.php",
-            "tests/fixtures/structure.php"
+            "src/Prepare.php"
         ]
     },
     "require": {

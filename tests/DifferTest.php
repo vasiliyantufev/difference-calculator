@@ -3,57 +3,66 @@
 namespace Differ\tests;
 
 use function DifferenceCalculator\genDiff;
-use DifferenceCalculator\Structure;
 use \PHPUnit\Framework\TestCase;
 
 class DifferTest extends TestCase
 {
-    private function pathFile(string $file = '')
-    {
-        return Structure\PATH_FILES . $file;
-    }
+    const PATH_FILES = 'tests' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
 
-    public function testPlain()
+    private function getFilePath(string $file = '')
     {
-        $this->assertEquals(
-            Structure\PLAIN,
-            genDiff($this->pathFile('testBefore.json'), $this->pathFile('testAfter.json'), 'plain')
-        );
+        return self::PATH_FILES . $file;
     }
 
     public function testPretty()
     {
-        $this->assertEquals(
-            Structure\PRETTY,
-            genDiff($this->pathFile('testBefore.json'), $this->pathFile('testAfter.json'), 'pretty')
-        );
+        $diff = genDiff($this->getFilePath('testBefore.json'), $this->getFilePath('testAfter.json'));
+        $this->assertStringEqualsFile($this->getFilePath('pretty'), $diff);
+//        $this->assertEquals(
+//            Structure\PRETTY,
+//            genDiff($this->getFilePath('testBefore.json'), $this->getFilePath('testAfter.json'), 'pretty')
+//        );
+    }
+
+    public function testPlain()
+    {
+        $diff = genDiff($this->getFilePath('testBefore.json'), $this->getFilePath('testAfter.json'), 'plain');
+        $this->assertStringEqualsFile($this->getFilePath('plain'), $diff);
+//        $this->assertEquals(
+//            Structure\PLAIN,
+//            genDiff($this->getFilePath('testBefore.json'), $this->getFilePath('testAfter.json'), 'plain')
+//        );
     }
 
     public function testJson()
     {
-        $this->assertEquals(
-            Structure\JSON,
-            genDiff($this->pathFile('testBefore.json'), $this->pathFile('testAfter.json'), 'json')
-        );
+        $diff = genDiff($this->getFilePath('testBefore.json'), $this->getFilePath('testAfter.json'), 'json');
+        $this->assertStringEqualsFile($this->getFilePath('ast_json'), $diff);
+//        $this->assertEquals(
+//            Structure\JSON,
+//            genDiff($this->getFilePath('testBefore.json'), $this->getFilePath('testAfter.json'), 'json')
+//        );
     }
 
     public function testYaml()
     {
-        $this->assertEquals(
-            Structure\YAML_JSON,
-            genDiff($this->pathFile('before.yaml'), $this->pathFile('after.yaml'), 'json')
-        );
+        $diff = genDiff($this->getFilePath('before.yaml'), $this->getFilePath('after.yaml'), 'json');
+        $this->assertStringEqualsFile($this->getFilePath('ast_yaml'), $diff);
+//        $this->assertEquals(
+//            Structure\YAML_JSON,
+//            genDiff($this->getFilePath('before.yaml'), $this->getFilePath('after.yaml'), 'json')
+//        );
     }
 
     public function testFormat()
     {
-        $this->assertNotEmpty(genDiff($this->pathFile('before.json'), $this->pathFile('after.json'), 'json'));
+        $this->assertNotEmpty(genDiff($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'json'));
     }
 
     public function testFormatException()
     {
         try {
-            $this->assertNotEmpty(genDiff($this->pathFile('before.lol'), $this->pathFile('after.lol'), 'json'));
+            $this->assertNotEmpty(genDiff($this->getFilePath('before.lol'), $this->getFilePath('after.lol'), 'json'));
         } catch (\Exception $e) {
             $this->assertEquals('Cannot find diff generator for specified format', $e->getMessage());
         }
