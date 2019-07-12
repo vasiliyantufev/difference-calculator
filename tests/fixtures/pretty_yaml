@@ -1,0 +1,9 @@
+{
+    integer: 25
+  + string: 25
+  - string: 30
+  + float: 25
+  - float: 30
+  + boolean: Yes
+  - boolean: no
+}
