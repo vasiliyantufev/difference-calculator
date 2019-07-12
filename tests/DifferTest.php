@@ -36,7 +36,6 @@ class DifferTest extends TestCase
     {
         $diff = genDiff($this->getFilePath('before.yaml'), $this->getFilePath('after.yaml'), 'plain');
         $this->assertStringEqualsFile($this->getFilePath('plain_yaml'), $diff);
-
     }
 
     public function testFormatException()
