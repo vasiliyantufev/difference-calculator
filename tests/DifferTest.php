@@ -2,7 +2,7 @@
 
 namespace Differ\tests;
 
-use function DifferenceCalculator\genDiff;
+use function DifferenceCalculator\generateDifference;
 use \PHPUnit\Framework\TestCase;
 
 class DifferTest extends TestCase
@@ -16,34 +16,45 @@ class DifferTest extends TestCase
 
     public function testPrettyJson()
     {
-        $diff = genDiff($this->getFilePath('before.json'), $this->getFilePath('after.json'));
+        $diff = generateDifference($this->getFilePath('before.json'), $this->getFilePath('after.json'));
         $this->assertStringEqualsFile($this->getFilePath('pretty_json'), $diff);
     }
 
     public function testPlainJson()
     {
-        $diff = genDiff($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'plain');
+        $diff = generateDifference($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'plain');
         $this->assertStringEqualsFile($this->getFilePath('plain_json'), $diff);
     }
 
     public function testPrettyYaml()
     {
-        $diff = genDiff($this->getFilePath('before.yaml'), $this->getFilePath('after.yaml'));
+        $diff = generateDifference($this->getFilePath('before.yaml'), $this->getFilePath('after.yaml'));
         $this->assertStringEqualsFile($this->getFilePath('pretty_yaml'), $diff);
     }
 
     public function testPlainYaml()
     {
-        $diff = genDiff($this->getFilePath('before.yaml'), $this->getFilePath('after.yaml'), 'plain');
+        $diff = generateDifference($this->getFilePath('before.yaml'), $this->getFilePath('after.yaml'), 'plain');
         $this->assertStringEqualsFile($this->getFilePath('plain_yaml'), $diff);
     }
 
-    public function testFormatException()
+    public function testFileFormatException()
     {
         try {
-            genDiff($this->getFilePath('before.lol'), $this->getFilePath('after.lol'), 'json');
+            generateDifference($this->getFilePath('before.lol'), $this->getFilePath('after.lol'));
+            $this->fail('expected file format');
         } catch (\Exception $e) {
-            $this->assertEquals('Cannot find diff generator for specified format', $e->getMessage());
+            $this->assertEquals('invalid file format', $e->getMessage());
+        }
+    }
+
+    public function testUtilityFormatException()
+    {
+        try {
+            generateDifference($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'lol');
+            $this->fail('expected utility format');
+        } catch (\Exception $e) {
+            $this->assertEquals('wrong utility format', $e->getMessage());
         }
     }
 }

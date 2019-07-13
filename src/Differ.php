@@ -2,39 +2,45 @@
 
 namespace DifferenceCalculator;
 
-use function DifferenceCalculator\Parser\parserFile;
+use function DifferenceCalculator\Parser\parseFile;
 use function DifferenceCalculator\Tree\builder;
-use function DifferenceCalculator\Tree\show;
+use function DifferenceCalculator\Tree\getDiffBuilder;
 
+const UTILITY_FORMAT = ['json', 'plain', 'pretty'];
 const FILE_FORMAT    = ['json', 'yaml'];
 
-function genDiff($pathToFile1, $pathToFile2, $fmt = 'pretty')
+function generateDifference($pathToFile1, $pathToFile2, $fmt = 'pretty')
 {
-    if (is_null($format = defineFormat($pathToFile1, $pathToFile2))) {
-        throw new \RuntimeException('Cannot find diff generator for specified format');
-    }
+    $formatFile1 = validateFileFormat($pathToFile1);
+    $formatFile2 = validateFileFormat($pathToFile2);
+    validateUtilityFormat($fmt);
 
-    $parseFile1 = parserFile($format, $pathToFile1);
-    $parseFile2 = parserFile($format, $pathToFile2);
+    $parserFile1 = parseFile($formatFile1, $pathToFile1);
+    $parserFile2 = parseFile($formatFile2, $pathToFile2);
 
-    $differ = show($fmt, builder($parseFile1, $parseFile2));
+    $differ = getDiffBuilder($fmt, builder($parserFile1, $parserFile2));
 
-    print_r($differ . PHP_EOL);
+    //print_r($differ . PHP_EOL);
     return $differ;
 }
 
-function defineFormat($pathToFile1, $pathToFile2)
+function validateFileFormat($pathToFile)
 {
-    $file1_info = pathinfo($pathToFile1);
-    $file2_info = pathinfo($pathToFile2);
-    if (!isset($file1_info['extension']) || !isset($file2_info['extension'])) {
-        return null;
+    $fileInfo = pathinfo($pathToFile);
+
+    if (!isset($fileInfo['extension'])) {
+        throw new \RuntimeException('invalid file format');
     }
-    if (!in_array($file1_info['extension'], FILE_FORMAT) && !in_array($file2_info['extension'], FILE_FORMAT)) {
-        return null;
+    if (!in_array($fileInfo['extension'], FILE_FORMAT)) {
+        throw new \RuntimeException('invalid file format');
     }
-    if ($file1_info['extension'] != $file2_info['extension']) {
-        return null;
+    return $fileInfo['extension'];
+}
+
+function validateUtilityFormat($utilityFormat)
+{
+    if (!in_array($utilityFormat, UTILITY_FORMAT)) {
+        throw new \RuntimeException('wrong utility format');
     }
-    return $file1_info['extension'];
+    return $utilityFormat;
 }

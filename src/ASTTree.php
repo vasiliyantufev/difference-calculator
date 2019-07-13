@@ -6,9 +6,7 @@ use function DifferenceCalculator\Display\json;
 use function DifferenceCalculator\Display\plain;
 use function DifferenceCalculator\Display\pretty;
 
-const DISPLAY_FORMAT = ['json', 'plain', 'pretty'];
-
-function show($fmt, $tree)
+function getDiffBuilder($fmt, $tree)
 {
     switch ($fmt) {
         case 'pretty':
@@ -55,6 +53,5 @@ function builder(array $before, array $after)
         return $acc;
     }, []);
 
-    //var_dump($ASTtree);
     return $ASTtree;
 }
