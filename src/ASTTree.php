@@ -2,9 +2,9 @@
 
 namespace DifferenceCalculator\Tree;
 
-use function DifferenceCalculator\Display\json;
-use function DifferenceCalculator\Display\plain;
-use function DifferenceCalculator\Display\pretty;
+use function DifferenceCalculator\Formatters\json\json;
+use function DifferenceCalculator\Formatters\plain\plain;
+use function DifferenceCalculator\Formatters\pretty\pretty;
 
 function getDiffBuilder($fmt, $tree)
 {

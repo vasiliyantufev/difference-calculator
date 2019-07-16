@@ -1,8 +1,8 @@
 <?php
 
-namespace DifferenceCalculator\Prepare;
+namespace DifferenceCalculator\Helper;
 
-function prepareForDiff($value, $level)
+function prepare($value, $level)
 {
     return is_array($value) ? prepareArray($value, $level) : prepareValue($value);
 }
@@ -23,7 +23,7 @@ function prepareArray(array $items, $level)
     $offset = str_pad('', $level * 4, ' ');
     $properties = array_keys($items);
     $lines = array_reduce($properties, function ($lines, $prop) use ($items, $offset, $level) {
-        $preparedValue = prepareForDiff($items[$prop], $level + 1);
+        $preparedValue = prepare($items[$prop], $level + 1);
         $lines[] = "{$offset}    {$prop}: {$preparedValue}";
         return $lines;
     }, ["{"]);

@@ -10,11 +10,14 @@
     ],
     "autoload": {
         "files": [
-            "src/Differ.php",
-            "src/Display.php",
             "src/ASTTree.php",
+            "src/Differ.php",
             "src/Parser.php",
-            "src/Prepare.php"
+            "src/Validate.php",
+            "src/Formatters/JsonFormatter.php",
+            "src/Formatters/PlainFormatter.php",
+            "src/Formatters/PrettyFormatter.php",
+            "src/Formatters/Helper.php"
         ]
     },
     "require": {
