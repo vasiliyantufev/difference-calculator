@@ -11,15 +11,15 @@ function pretty(array $tree, int $level = 0)
     $prettyDisplay = array_reduce($tree, function ($acc, $key) use ($offset, $level) {
         switch ($key['type']) {
             case 'added':
-                $after = prepare($key['after'], $level + 1);
+                $after = prepare($key['afterValue'], $level + 1);
                 $acc[] = "{$offset}  + {$key['node']}: {$after}";
                 break;
             case 'removed':
-                $before = prepare($key['before'], $level + 1);
+                $before = prepare($key['beforeValue'], $level + 1);
                 $acc[] = "{$offset}  - {$key['node']}: {$before}";
                 break;
             case 'unchanged':
-                $before = prepare($key['before'], $level + 1);
+                $before = prepare($key['beforeValue'], $level + 1);
                 $acc[] = "{$offset}    {$key['node']}: {$before}";
                 break;
             case 'nested':
@@ -27,9 +27,9 @@ function pretty(array $tree, int $level = 0)
                 $acc[] = "{$offset}    {$key['name']}: {$children}";
                 break;
             case 'changed':
-                $after = prepare($key['after'], $level + 1);
+                $after = prepare($key['afterValue'], $level + 1);
                 $acc[] = "{$offset}  + {$key['node']}: {$after}";
-                $before = prepare($key['before'], $level + 1);
+                $before = prepare($key['beforeValue'], $level + 1);
                 $acc[] = "{$offset}  - {$key['node']}: {$before}";
                 break;
         }

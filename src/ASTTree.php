@@ -29,13 +29,13 @@ function builder(array $before, array $after)
 
         $added  = !array_key_exists($key, $before);
         if ($added) {
-            $acc[] = ['type' => 'added', 'node' => $key, 'before' => '', 'after' => $afterValue];
+            $acc[] = ['type' => 'added', 'node' => $key, 'beforeValue' => '', 'afterValue' => $afterValue];
             return $acc;
         }
 
         $delete = !array_key_exists($key, $after);
         if ($delete) {
-            $acc[] = ['type' => 'removed', 'node' => $key, 'before' => $beforeValue, 'after' => ''];
+            $acc[] = ['type' => 'removed', 'node' => $key, 'beforeValue' => $beforeValue, 'afterValue' => ''];
             return $acc;
         }
 
@@ -45,11 +45,11 @@ function builder(array $before, array $after)
         }
 
         if ($beforeValue !== $afterValue) {
-            $acc[] = ['type' => 'changed', 'node' => $key, 'before' => $beforeValue, 'after' => $afterValue];
+            $acc[] = ['type' => 'changed', 'node' => $key, 'beforeValue' => $beforeValue, 'afterValue' => $afterValue];
             return $acc;
         }
 
-        $acc[] = ['type' => 'unchanged', 'node' => $key, 'before' => $beforeValue, 'after' => $afterValue];
+        $acc[] = ['type' => 'unchanged', 'node' => $key, 'beforeValue' => $beforeValue, 'afterValue' => $afterValue];
         return $acc;
     }, []);
 

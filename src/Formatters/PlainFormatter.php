@@ -8,11 +8,11 @@ function plain(array $tree, $path = '')
 {
     $plainDisplay = array_reduce($tree, function ($acc, $key) use ($path) {
 
-        if (isset($key['before'])) {
-            $before =  is_array($key['before']) ? 'complex value' : prepareValue($key['before']);
+        if (isset($key['beforeValue'])) {
+            $before =  is_array($key['beforeValue']) ? 'complex value' : prepareValue($key['beforeValue']);
         };
-        if (isset($key['after'])) {
-            $after = is_array($key['after']) ? 'complex value' : prepareValue($key['after']);
+        if (isset($key['afterValue'])) {
+            $after = is_array($key['afterValue']) ? 'complex value' : prepareValue($key['afterValue']);
         };
 
         switch ($key['type']) {
