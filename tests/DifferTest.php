@@ -5,6 +5,7 @@ namespace Differ\tests;
 use function DifferenceCalculator\generateDifference;
 use InvalidArgumentException;
 use \PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class DifferTest extends TestCase
 {
@@ -41,21 +42,13 @@ class DifferTest extends TestCase
 
     public function testFileFormatException()
     {
-        try {
-            generateDifference($this->getFilePath('before.lol'), $this->getFilePath('after.lol'));
-            $this->fail('expected file format');
-        } catch (\Exception $e) {
-            $this->assertEquals('invalid file format', $e->getMessage());
-        }
+        $this->expectException(RuntimeException::class);
+        generateDifference($this->getFilePath('before.lol'), $this->getFilePath('after.lol'));
     }
 
     public function testUtilityFormatException()
     {
-        try {
-            generateDifference($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'lol');
-            $this->fail('expected utility format');
-        } catch (\Exception $e) {
-            $this->assertEquals('wrong utility format', $e->getMessage());
-        }
+        $this->expectException(RuntimeException::class);
+        generateDifference($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'lol');
     }
 }
