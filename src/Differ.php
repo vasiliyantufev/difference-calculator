@@ -14,10 +14,11 @@ function generateDifference($pathToFile1, $pathToFile2, $fmt = 'pretty')
     $formatFile2 = validateFileFormat($pathToFile2);
     validateUtilityFormat($fmt);
 
-    $parserFile1 = parseFile($formatFile1, $pathToFile1);
-    $parserFile2 = parseFile($formatFile2, $pathToFile2);
+    $parsedFile1 = parseFile($formatFile1, $pathToFile1);
+    $parsedFile2 = parseFile($formatFile2, $pathToFile2);
 
-    $differ = getDiffBuilder($fmt, builder($parserFile1, $parserFile2));
+    $ASTTree = builder($parsedFile1, $parsedFile2);
+    $differ  = getDiffBuilder($fmt, $ASTTree);
 
     //print_r($differ . PHP_EOL);
     return $differ;

@@ -2,7 +2,7 @@
 
 namespace DifferenceCalculator\Formatters\pretty;
 
-use function DifferenceCalculator\Helper\prepare;
+use function DifferenceCalculator\Helper\prepareValue;
 
 function pretty(array $tree, int $level = 0)
 {
@@ -38,4 +38,23 @@ function pretty(array $tree, int $level = 0)
     $prettyDisplay[] = "{$offset}}";
 
     return implode(PHP_EOL, $prettyDisplay);
+}
+
+
+function prepare($value, $level)
+{
+    return is_array($value) ? prepareArray($value, $level) : prepareValue($value);
+}
+
+function prepareArray(array $items, $level)
+{
+    $offset = str_pad('', $level * 4, ' ');
+    $properties = array_keys($items);
+    $lines = array_reduce($properties, function ($lines, $prop) use ($items, $offset, $level) {
+        $preparedValue = prepare($items[$prop], $level + 1);
+        $lines[] = "{$offset}    {$prop}: {$preparedValue}";
+        return $lines;
+    }, ["{"]);
+    $lines[] = "{$offset}}";
+    return implode(PHP_EOL, $lines);
 }
