@@ -1,8 +1,7 @@
 <?php
 
-namespace DifferenceCalculator\Validate;
+namespace DifferenceCalculator\Validation;
 
-use InvalidArgumentException;
 const UTILITY_FORMAT = ['json', 'plain', 'pretty'];
 const FILE_FORMAT    = ['json', 'yaml'];
 

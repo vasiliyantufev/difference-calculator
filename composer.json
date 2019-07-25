@@ -10,10 +10,11 @@
     ],
     "autoload": {
         "files": [
-            "src/ASTTree.php",
+            "src/AST.php",
             "src/Differ.php",
             "src/Parser.php",
-            "src/Validate.php",
+            "src/Validation.php",
+            "src/DifferFactory.php",
             "src/Formatters/JsonFormatter.php",
             "src/Formatters/PlainFormatter.php",
             "src/Formatters/PrettyFormatter.php",

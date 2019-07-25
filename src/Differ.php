@@ -3,10 +3,10 @@
 namespace DifferenceCalculator;
 
 use function DifferenceCalculator\Parser\parseFile;
-use function DifferenceCalculator\Tree\builder;
-use function DifferenceCalculator\Tree\getDiffBuilder;
-use function DifferenceCalculator\Validate\validateFileFormat;
-use function DifferenceCalculator\Validate\validateUtilityFormat;
+use function DifferenceCalculator\DifferFactory\getDiffBuilder;
+use function DifferenceCalculator\AST\buildAST;
+use function DifferenceCalculator\Validation\validateFileFormat;
+use function DifferenceCalculator\Validation\validateUtilityFormat;
 
 function generateDifference($pathToFile1, $pathToFile2, $fmt = 'pretty')
 {
@@ -14,12 +14,12 @@ function generateDifference($pathToFile1, $pathToFile2, $fmt = 'pretty')
     $formatFile2 = validateFileFormat($pathToFile2);
     validateUtilityFormat($fmt);
 
-    $parsedFile1 = parseFile($formatFile1, $pathToFile1);
-    $parsedFile2 = parseFile($formatFile2, $pathToFile2);
+    $parsedFile1 = parseFile($formatFile1, file_get_contents($pathToFile1));
+    $parsedFile2 = parseFile($formatFile2, file_get_contents($pathToFile2));
 
-    $ASTTree = builder($parsedFile1, $parsedFile2);
-    $differ  = getDiffBuilder($fmt, $ASTTree);
+    $AST = buildAST($parsedFile1, $parsedFile2);
+    $diff  = getDiffBuilder($fmt, $AST);
 
-    //print_r($differ . PHP_EOL);
-    return $differ;
+    //print_r($diff . PHP_EOL);
+    return $diff;
 }

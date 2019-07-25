@@ -3,7 +3,6 @@
 namespace Differ\tests;
 
 use function DifferenceCalculator\generateDifference;
-use InvalidArgumentException;
 use \PHPUnit\Framework\TestCase;
 use RuntimeException;
 

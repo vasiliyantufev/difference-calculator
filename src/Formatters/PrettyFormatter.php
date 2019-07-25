@@ -2,7 +2,7 @@
 
 namespace DifferenceCalculator\Formatters\pretty;
 
-use function DifferenceCalculator\Helper\prepareValue;
+use function DifferenceCalculator\Helper\stringifyValue;
 
 function pretty(array $tree, int $level = 0)
 {
@@ -11,15 +11,15 @@ function pretty(array $tree, int $level = 0)
     $prettyDisplay = array_reduce($tree, function ($acc, $key) use ($offset, $level) {
         switch ($key['type']) {
             case 'added':
-                $after = prepare($key['afterValue'], $level + 1);
+                $after = stringify($key['afterValue'], $level + 1);
                 $acc[] = "{$offset}  + {$key['node']}: {$after}";
                 break;
             case 'removed':
-                $before = prepare($key['beforeValue'], $level + 1);
+                $before = stringify($key['beforeValue'], $level + 1);
                 $acc[] = "{$offset}  - {$key['node']}: {$before}";
                 break;
             case 'unchanged':
-                $before = prepare($key['beforeValue'], $level + 1);
+                $before = stringify($key['beforeValue'], $level + 1);
                 $acc[] = "{$offset}    {$key['node']}: {$before}";
                 break;
             case 'nested':
@@ -27,9 +27,9 @@ function pretty(array $tree, int $level = 0)
                 $acc[] = "{$offset}    {$key['name']}: {$children}";
                 break;
             case 'changed':
-                $after = prepare($key['afterValue'], $level + 1);
+                $after = stringify($key['afterValue'], $level + 1);
                 $acc[] = "{$offset}  + {$key['node']}: {$after}";
-                $before = prepare($key['beforeValue'], $level + 1);
+                $before = stringify($key['beforeValue'], $level + 1);
                 $acc[] = "{$offset}  - {$key['node']}: {$before}";
                 break;
         }
@@ -41,17 +41,17 @@ function pretty(array $tree, int $level = 0)
 }
 
 
-function prepare($value, $level)
+function stringify($value, $level)
 {
-    return is_array($value) ? prepareArray($value, $level) : prepareValue($value);
+    return is_array($value) ? stringifyArray($value, $level) : stringifyValue($value);
 }
 
-function prepareArray(array $items, $level)
+function stringifyArray(array $items, $level)
 {
     $offset = str_pad('', $level * 4, ' ');
     $properties = array_keys($items);
     $lines = array_reduce($properties, function ($lines, $prop) use ($items, $offset, $level) {
-        $preparedValue = prepare($items[$prop], $level + 1);
+        $preparedValue = stringify($items[$prop], $level + 1);
         $lines[] = "{$offset}    {$prop}: {$preparedValue}";
         return $lines;
     }, ["{"]);

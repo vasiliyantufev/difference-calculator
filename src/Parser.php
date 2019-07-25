@@ -3,9 +3,8 @@
 namespace DifferenceCalculator\Parser;
 use Symfony\Component\Yaml\Yaml;
 
-function parseFile($format, $pathToFile)
+function parseFile($format, $content)
 {
-    $content = file_get_contents($pathToFile);
     if ($format == 'json') {
         $array = jsonParsed($content);
     }

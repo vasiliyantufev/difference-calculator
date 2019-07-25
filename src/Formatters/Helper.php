@@ -2,7 +2,7 @@
 
 namespace DifferenceCalculator\Helper;
 
-function prepareValue($value)
+function stringifyValue($value)
 {
     $stringValue = $value;
     if (is_bool($value)) {
