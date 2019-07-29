@@ -2,18 +2,18 @@
 
 namespace DifferenceCalculator\DifferFactory;
 
-use function DifferenceCalculator\Formatters\json\jsonFormatting as formatJson;
-use function DifferenceCalculator\Formatters\plain\plainFormatting as formatPlain;
-use function DifferenceCalculator\Formatters\pretty\prettyFormatting as formatPretty;
+use function DifferenceCalculator\Formatters\json\jsonFormatting;
+use function DifferenceCalculator\Formatters\plain\plainFormatting;
+use function DifferenceCalculator\Formatters\pretty\prettyFormatting;
 
 function getDiffBuilder($fmt, $tree)
 {
     switch ($fmt) {
         case 'pretty':
-            return formatPretty($tree);
+            return prettyFormatting($tree);
         case 'plain':
-            return formatPlain($tree);
+            return plainFormatting($tree);
         case 'json':
-            return formatJson($tree);
+            return jsonFormatting($tree);
     }
 }
