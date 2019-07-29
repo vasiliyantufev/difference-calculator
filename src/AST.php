@@ -6,7 +6,7 @@ function buildAST(array $oldProperties, array $newProperties)
 {
     $allPropertiesNames = array_unique(array_merge(array_keys($oldProperties), array_keys($newProperties)));
 
-    $ASTtree = array_reduce($allPropertiesNames, function ($acc, $key) use ($oldProperties, $newProperties) {
+    $AST = array_reduce($allPropertiesNames, function ($acc, $key) use ($oldProperties, $newProperties) {
 
         $beforeValue = $oldProperties[$key] ?? null;
         $afterValue  = $newProperties[$key] ?? null;
@@ -28,14 +28,16 @@ function buildAST(array $oldProperties, array $newProperties)
             $acc[] = ['type' => 'nested', 'name' => $key, 'children' => $children];
         }
 
-        if ($beforeValue !== $afterValue) {
-            $acc[] = ['type' => 'changed', 'node' => $key, 'beforeValue' => $beforeValue, 'afterValue' => $afterValue];
+        if ($beforeValue === $afterValue) {
+            $acc[] = ['type' => 'unchanged', 'node' => $key,
+                'beforeValue' => $beforeValue, 'afterValue' => $afterValue];
             return $acc;
         }
 
-        $acc[] = ['type' => 'unchanged', 'node' => $key, 'beforeValue' => $beforeValue, 'afterValue' => $afterValue];
+        $acc[] = ['type' => 'changed', 'node' => $key,
+            'beforeValue' => $beforeValue, 'afterValue' => $afterValue];
         return $acc;
     }, []);
 
-    return $ASTtree;
+    return $AST;
 }

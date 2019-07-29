@@ -12,13 +12,12 @@
         "files": [
             "src/AST.php",
             "src/Differ.php",
-            "src/Parser.php",
-            "src/Validation.php",
             "src/DifferFactory.php",
+            "src/ParserFactory.php",
+            "src/Validation.php",
             "src/Formatters/JsonFormatter.php",
             "src/Formatters/PlainFormatter.php",
-            "src/Formatters/PrettyFormatter.php",
-            "src/Formatters/Helper.php"
+            "src/Formatters/PrettyFormatter.php"
         ]
     },
     "require": {

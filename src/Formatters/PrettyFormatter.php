@@ -2,9 +2,7 @@
 
 namespace DifferenceCalculator\Formatters\pretty;
 
-use function DifferenceCalculator\Helper\stringifyValue;
-
-function pretty(array $tree, int $level = 0)
+function prettyFormatting(array $tree, int $level = 0)
 {
     $offset = str_pad('', $level * 4, ' ');
 
@@ -23,7 +21,7 @@ function pretty(array $tree, int $level = 0)
                 $acc[] = "{$offset}    {$key['node']}: {$before}";
                 break;
             case 'nested':
-                $children = pretty($key['children'], $level + 1);
+                $children = prettyFormatting($key['children'], $level + 1);
                 $acc[] = "{$offset}    {$key['name']}: {$children}";
                 break;
             case 'changed':
@@ -44,6 +42,17 @@ function pretty(array $tree, int $level = 0)
 function stringify($value, $level)
 {
     return is_array($value) ? stringifyArray($value, $level) : stringifyValue($value);
+}
+
+function stringifyValue($value)
+{
+    $stringValue = $value;
+    if (is_bool($value)) {
+        $stringValue = $value ? 'true' : 'false';
+    } elseif (is_null($value)) {
+        $stringValue = 'null';
+    }
+    return $stringValue;
 }
 
 function stringifyArray(array $items, $level)
