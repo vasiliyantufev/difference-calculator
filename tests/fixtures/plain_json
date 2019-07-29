@@ -1,9 +1,10 @@
 Property 'common.setting2' was removed
+Property 'common.setting3' was changed. From 'true' to 'false'
 Property 'common.setting6' was removed
-Property 'common.setting4' was added with value: 'blah blah'
-Property 'common.setting5' was added with value: 'complex value'
-Property 'common' was changed. From 'complex value' to 'complex value'
-Property 'group1.baz' was changed. From 'bas' to 'bars'
-Property 'group1' was changed. From 'complex value' to 'complex value'
+Property 'common.setting4' was added with value: '"blah blah"'
+Property 'common.setting5' was added with value: '{"key5":"value5"}'
+Property 'common' was changed. From '{"setting1":"Value 1","setting2":"200","setting3":true,"setting6":{"key":"value"}}' to '{"setting1":"Value 1","setting3":false,"setting4":"blah blah","setting5":{"key5":"value5"}}'
+Property 'group1.baz' was changed. From '"bas"' to '"bars"'
+Property 'group1' was changed. From '{"baz":"bas","foo":"bar"}' to '{"foo":"bar","baz":"bars"}'
 Property 'group2' was removed
-Property 'group3' was added with value: 'complex value'
+Property 'group3' was added with value: '{"fee":"100500"}'
