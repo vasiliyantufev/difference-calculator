@@ -1,6 +1,6 @@
 <?php
 
-namespace DifferenceCalculator\Formatters\json;
+namespace DifferenceCalculator\Formatters\JsonFormatter;
 
 function jsonFormatting(array $tree)
 {

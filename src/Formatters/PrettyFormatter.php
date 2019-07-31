@@ -1,6 +1,6 @@
 <?php
 
-namespace DifferenceCalculator\Formatters\pretty;
+namespace DifferenceCalculator\Formatters\PrettyFormatter;
 
 function prettyFormatting(array $tree, int $level = 0)
 {

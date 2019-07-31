@@ -1,6 +1,6 @@
 <?php
 
-namespace DifferenceCalculator\Formatters\plain;
+namespace DifferenceCalculator\Formatters\PlainFormatter;
 
 function plainFormatting(array $tree, $path = '')
 {

@@ -6,7 +6,7 @@ use Symfony\Component\Yaml\Yaml;
 function parse($format, $content)
 {
     $mapping = [
-        'yml' => function ($rawData) {
+        'yaml' => function ($rawData) {
             return Yaml::parse($rawData);
         },
         'json' => function ($rawData) {

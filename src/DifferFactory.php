@@ -2,9 +2,9 @@
 
 namespace DifferenceCalculator\DifferFactory;
 
-use function DifferenceCalculator\Formatters\json\jsonFormatting;
-use function DifferenceCalculator\Formatters\plain\plainFormatting;
-use function DifferenceCalculator\Formatters\pretty\prettyFormatting;
+use function DifferenceCalculator\Formatters\JsonFormatter\jsonFormatting;
+use function DifferenceCalculator\Formatters\PlainFormatter\plainFormatting;
+use function DifferenceCalculator\Formatters\PrettyFormatter\prettyFormatting;
 
 function getDiffBuilder($fmt, $tree)
 {
