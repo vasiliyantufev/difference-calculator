@@ -13,7 +13,7 @@
             "src/AST.php",
             "src/Differ.php",
             "src/DifferFactory.php",
-            "src/ParserFactory.php",
+            "src/Parser.php",
             "src/Validation.php",
             "src/Formatters/JsonFormatter.php",
             "src/Formatters/PlainFormatter.php",
