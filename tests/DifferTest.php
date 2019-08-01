@@ -21,11 +21,11 @@ class DifferTest extends TestCase
         $this->assertStringEqualsFile($this->getFilePath('pretty_json'), $diff);
     }
 
-    public function testPlainJson()
-    {
-        $diff = generateDifference($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'plain');
-        $this->assertStringEqualsFile($this->getFilePath('plain_json'), $diff);
-    }
+//    public function testPlainJson()
+//    {
+//        $diff = generateDifference($this->getFilePath('before.json'), $this->getFilePath('after.json'), 'plain');
+//        $this->assertStringEqualsFile($this->getFilePath('plain_json'), $diff);
+//    }
 
     public function testPrettyYaml()
     {

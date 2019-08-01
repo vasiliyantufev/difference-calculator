@@ -6,17 +6,17 @@ function plainFormatting(array $tree, $path = '')
 {
     $plainDisplay = array_reduce($tree, function ($acc, $key) use ($path) {
 
-        $beforeValue = stringify(isset($key['beforeValue']) ? $key['beforeValue'] : null);
-        $afterValue  = stringify(isset($key['afterValue']) ? $key['afterValue'] : null);
-
         switch ($key['type']) {
             case 'added':
+                $afterValue  = stringify($key['afterValue']);
                 $acc[] = "Property '{$path}{$key['node']}' was added with value: '{$afterValue}'";
                 break;
             case 'removed':
                 $acc[] = "Property '{$path}{$key['node']}' was removed";
                 break;
             case 'changed':
+                $beforeValue = stringify($key['beforeValue']);
+                $afterValue  = stringify($key['afterValue']);
                 $acc[] = "Property '{$path}{$key['node']}' was changed. From '{$beforeValue}' to '{$afterValue}'";
                 break;
             case 'nested':
@@ -28,8 +28,18 @@ function plainFormatting(array $tree, $path = '')
 
     return implode(PHP_EOL, $plainDisplay);
 }
-
-function stringify($data)
+function stringify($date)
 {
-    return  is_object($data) ? 'complex value' : json_encode($data);
+    return is_array($date) ? 'complex value' : stringifyValue($date);
+}
+
+function stringifyValue($value)
+{
+    $stringValue = $value;
+    if (is_bool($value)) {
+        $stringValue = $value ? 'true' : 'false';
+    } elseif (is_null($value)) {
+        $stringValue = 'null';
+    }
+    return $stringValue;
 }
