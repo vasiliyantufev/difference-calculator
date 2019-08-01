@@ -20,6 +20,6 @@ function generateDifference($pathToFile1, $pathToFile2, $fmt = 'pretty')
     $AST = buildAST($parsedFile1, $parsedFile2);
     $diff  = getDiffBuilder($fmt, $AST);
 
-    print_r($diff . PHP_EOL);
+    //print_r($diff . PHP_EOL);
     return $diff;
 }
