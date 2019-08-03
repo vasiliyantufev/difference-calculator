@@ -2,7 +2,7 @@
 
 namespace DifferenceCalculator\Formatters\PlainFormatter;
 
-function plainFormatting(array $tree, $path = '')
+function formatting(array $tree, $path = '')
 {
     $plainDisplay = array_reduce($tree, function ($acc, $key) use ($path) {
 
@@ -20,7 +20,7 @@ function plainFormatting(array $tree, $path = '')
                 $acc[] = "Property '{$path}{$key['node']}' was changed. From '{$beforeValue}' to '{$afterValue}'";
                 break;
             case 'nested':
-                $acc[] = plainFormatting($key['children'], "{$path}{$key['name']}.");
+                $acc[] = formatting($key['children'], "{$path}{$key['name']}.");
                 break;
         }
         return $acc;

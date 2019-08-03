@@ -2,7 +2,7 @@
 
 namespace DifferenceCalculator\Formatters\PrettyFormatter;
 
-function prettyFormatting(array $tree, int $level = 0)
+function formatting(array $tree, int $level = 0)
 {
     $offset = str_pad('', $level * 4, ' ');
 
@@ -21,7 +21,7 @@ function prettyFormatting(array $tree, int $level = 0)
                 $acc[] = "{$offset}    {$key['node']}: {$before}";
                 break;
             case 'nested':
-                $children = prettyFormatting($key['children'], $level + 1);
+                $children = formatting($key['children'], $level + 1);
                 $acc[] = "{$offset}    {$key['name']}: {$children}";
                 break;
             case 'changed':
